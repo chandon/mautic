@@ -686,7 +686,7 @@ class ReportModel extends FormModel
                 $operator = 'default';
             }
 
-            $options = MauticReportBuilder::OPERATORS[$operator];
+            $options = MauticReportBuilder::OPERATORS;$options=$options[$operator];
         }
 
         foreach ($options as $value => &$label) {
