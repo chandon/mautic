@@ -11,6 +11,7 @@ namespace Mautic\LeadBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 /**
  * Class LeadImportType
@@ -77,6 +78,22 @@ class LeadImportType extends AbstractType
                 'class' => 'form-control',
                 'tooltip' => 'mautic.lead.import.batchlimit_tooltip'
             ),
+            'data'        => $default,
+            'constraints' => $constraints
+        ));
+
+        $enconding=array();
+        foreach (mb_list_encodings() as $value) {
+            $encoding[$value]=$value;
+        }
+        $default = (empty($options['data']['encoding'])) ? "UTF-8" : (int) $options['data']['encoding'];
+        $builder->add('encoding', ChoiceType::class, array(
+            'label'       => 'mautic.lead.import.encoding',
+            'attr'        => array(
+                'class' => 'form-control',
+            ),
+            'choices'  => $encoding,
+            'choices_as_values' => true,            
             'data'        => $default,
             'constraints' => $constraints
         ));
