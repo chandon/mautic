@@ -87,13 +87,13 @@ class LeadImportType extends AbstractType
             $encodingList[$encoding]=$encoding;
         }
         $default = (empty($options['data']['encoding'])) ? "UTF-8" :$options['data']['encoding'];
-        $builder->add('batchlimit', Choice::class, array(
-            'label'       => 'mautic.lead.import.batchlimit',
+        $builder->add('encoding', ChoiceType::class, array(
+            'label'       => 'mautic.lead.import.encoding',
             'attr'        => array(
                 'class' => 'form-control',
             ),
             'choices_as_values' => true,
-            'choices'     => $encoding,
+            'choices'     => $encodingList,
             'data'        => $default,
             'constraints' => $constraints
         ));
