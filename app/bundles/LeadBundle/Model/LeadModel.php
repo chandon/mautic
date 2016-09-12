@@ -637,13 +637,14 @@ class LeadModel extends FormModel
 
             if (empty($leadId)) {
                 //this lead is not tracked yet so get leads by IP and track that lead or create a new one
-                $leads = $this->getLeadsByIp($ip->getIpAddress());
+                $ipAddress = $ip->getIpAddress();
+                $leads = $this->getLeadsByIp($ipAddress);
 
                 if (count($leads)) {
                     //just create a tracking cookie for the newest lead
                     $lead   = $leads[0];
                     $leadId = $lead->getId();
-                    $this->logger->addDebug("LEAD: Existing lead found with ID# $leadId.");
+                    $this->logger->addDebug("LEAD: Existing lead found for IP $ipAddress with ID# $leadId.");
                 } else {
                     //let's create a lead
                     $lead = new Lead();
@@ -655,7 +656,7 @@ class LeadModel extends FormModel
 
                     $this->saveEntity($lead, false);
                     $leadId = $lead->getId();
-                    $this->logger->addDebug("LEAD: New lead created with ID# $leadId.");
+                    $this->logger->addDebug("LEAD: New lead created for IP $ipAddress with ID# $leadId.");
                 }
 
                 $fields = $this->getLeadDetails($lead);
@@ -680,7 +681,7 @@ class LeadModel extends FormModel
 
                     $this->logger->addDebug("LEAD: New lead created with ID# $leadId.");
                 } else {
-                    $this->logger->addDebug("LEAD: Existing lead found with ID# $leadId.");
+                    $this->logger->addDebug("LEAD: Existing lead found through cookie with ID# $leadId.");
                 }
             }
 
