@@ -388,7 +388,7 @@ class MessageHelper
         'oversize'       => ['remove' => 0, 'bounce_type' => 'soft'],
         'outofoffice'    => ['remove' => 0, 'bounce_type' => 'soft'],
         'unknown'        => ['remove' => 1, 'bounce_type' => 'hard'],
-        'unrecognized'   => ['remove' => 0, 'bounce_type' => false],
+        'unrecognized'   => ['remove' => 1, 'bounce_type' => false],
         'user_reject'    => ['remove' => 1, 'bounce_type' => 'hard'],
         'warning'        => ['remove' => 0, 'bounce_type' => 'soft'],
     ];
@@ -411,11 +411,12 @@ class MessageHelper
     public static function parseBody($body, $knownEmail = '', $debug_mode = false)
     {
         // initialize the result array
+        $default_cat = 'unrecognized';
         $result = [
             'email'       => $knownEmail,
-            'bounce_type' => false,
-            'remove'      => 0,
-            'rule_cat'    => 'unrecognized',
+            'bounce_type' => self::$rule_categories[$default_cat]['bounce_type'],
+            'remove'      => self::$rule_categories[$default_cat]['remove'],
+            'rule_cat'    => $default_cat,
             'rule_no'     => '0000',
         ];
 
